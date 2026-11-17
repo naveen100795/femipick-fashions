@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${product.name}">
+        Product
+    </title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        FemiPick Fashions
+    </div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/products">Collections</a>
+    </nav>
+
+</header>
+
+
+<section class="product-details">
+
+    <div class="product-image">
+
+        <img th:src="${product.imageUrl}"
+             alt="Jewellery">
+
+    </div>
+
+
+    <div class="product-content">
+
+        <h1 th:text="${product.name}">
+            Antique Full Set
+        </h1>
+
+        <p th:text="${product.description}">
+            Beautiful traditional imitation jewellery.
+        </p>
+
+
+        <div th:if="${product.availableForSale}"
+             class="detail-price">
+
+            <strong>
+                Sale Price
+            </strong>
+
+            <h2>
+                ₹<span th:text="${product.salePrice}">
+                5000
+                </span>
+            </h2>
+
+        </div>
+
+
+        <div th:if="${product.availableForRent}"
+             class="detail-price rental">
+
+            <strong>
+                Rental Price
+            </strong>
+
+            <h2>
+                ₹<span th:text="${product.rentalPrice}">
+                800
+                </span>
+            </h2>
+
+        </div>
+
+
+        <button class="contact-button">
+            Enquire on WhatsApp
+        </button>
+
+    </div>
+
+</section>
+
+</body>
+</html>

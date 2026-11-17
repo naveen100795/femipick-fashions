@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Collections - FemiPick Fashions</title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        FemiPick Fashions
+    </div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/products">Collections</a>
+    </nav>
+
+</header>
+
+
+<section class="products-section">
+
+    <h1>
+        Our Jewellery Collection
+    </h1>
+
+    <div class="product-grid">
+
+        <div class="product-card"
+             th:each="product : ${products}">
+
+            <img th:src="${product.imageUrl}"
+                 alt="Jewellery" style="display: block; margin: 0 auto; width: 200px; height: auto;">
+
+            <div class="product-info" style="display: block; margin: 0 auto; text-align:center">
+
+                <h3 th:text="${product.name}">
+                    Antique Jewellery Set
+                </h3>
+
+                <p th:text="${product.description}">
+                    Beautiful traditional jewellery.
+                </p>
+
+
+               <!-- <div
+                     class="price">
+
+                    Sale:
+                    ₹<span th:text="${product.salePrice}">
+                    5000
+                    </span>
+
+                </div>-->
+
+
+                <div
+                     class="rental-price">
+
+                    Rental:
+                    ₹<span th:text="${product.rentalPrice}">
+                    800
+                    </span>
+
+                </div>
+
+
+                <a th:href="@{/products/{id}(id=${product.id})}"
+                   class="view-button">
+
+                    View Details
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>

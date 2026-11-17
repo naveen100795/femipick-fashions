@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FemiPick Fashions</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">FemiPick Fashions</div>
+    <nav class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/products}">Collections</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>FemiPick Fashions</h1>
+            <p class="tagline">Elegance for Every Occasion</p>
+            <span class="subtitle">Imitation Jewellery Sales &amp; Rentals</span>
+        </div>
+    </section>
+
+    <section class="service-section">
+        <h2>What are you looking for?</h2>
+        <div class="service-container">
+          <!--  <a th:href="@{/products(type='sale')}" class="service-card sale">
+                <div class="service-icon" aria-hidden="true">💎</div>
+                <h3>Jewellery for Sale</h3>
+                <p>Discover beautiful jewellery to make yours forever.</p>
+                <span class="btn">Shop Now</span>
+            </a>-->
+
+            <a th:href="@{/products(type='rent')}" class="service-card rental">
+                <div class="service-icon" aria-hidden="true">👑</div>
+                <h3>Jewellery for Rent</h3>
+                <p>Stunning jewellery for weddings, receptions and special occasions.</p>
+                <span class="btn">Rent Now</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="categories">
+        <h2>Our Collections</h2>
+
+        <p th:if="${#lists.isEmpty(categories)}" class="empty-msg">
+            Collections coming soon. Check back shortly!
+        </p>
+
+        <div class="category-grid" th:unless="${#lists.isEmpty(categories)}">
+            <a th:each="category : ${categories}"
+               th:href="@{/products(category=${category.id})}"
+               class="category-card">
+                <h3 th:text="${category.name}">Antique Full Set</h3>
+                <span class="explore-link">Explore Collection →</span>
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer id="contact">
+    <h2>FemiPick Fashions</h2>
+    <p>Imitation Jewellery Sales &amp; Rentals</p>
+    <p class="copyright">© 2026 FemiPick Fashions. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
