@@ -1,10 +1,107 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FemiPick Fashions</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        /* Full-Page Background Image */
+        body {
+            margin: 0;
+            background: linear-gradient(rgba(255, 250, 245, 0.80), rgba(255, 250, 245, 0.80)),
+                        url('/images/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+        }
+
+        /* Trending Collections Auto-Slider (3-Second Interval) */
+        .trending-section {
+            max-width: 1000px;
+            margin: 35px auto;
+            padding: 0 16px;
+            text-align: center;
+        }
+
+        .trending-section h2 {
+            color: #4a1c40;
+            margin-bottom: 18px;
+            font-size: 1.8rem;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 750px;
+            height: 400px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            background-color: #ffffff;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
+            color: #ffffff;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .slide-caption span {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        /* Mobile & Tablet Adjustments */
+        @media (max-width: 768px) {
+            body {
+                background-attachment: scroll;
+            }
+            .slider-wrapper {
+                height: 300px;
+            }
+            .trending-section h2 {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slider-wrapper {
+                height: 240px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -15,33 +112,27 @@
         <a th:href="@{/products}">Collections</a>
         <a href="#about">About Us</a>
         <a href="#contact">Contact</a>
+        <a th:if="${isAdmin}" th:href="@{/upload}" class="admin-btn">Admin Upload</a>
     </nav>
 </header>
 
 <main>
-    <section class="hero">
-        <div class="hero-content">
-            <h1>FemiPick Fashions</h1>
-            <p class="tagline">Elegance for Every Occasion</p>
-            <span class="subtitle">Imitation Jewellery Sales &amp; Rentals</span>
-        </div>
-    </section>
+    <!-- Hero block removed; Trending Collections 3-Second Slider starts directly -->
+    <section class="trending-section" th:if="${!#lists.isEmpty(trendingItems)}">
+        <h2>Trending Collections</h2>
 
-    <section class="service-section">
-        <h2>What are you looking for?</h2>
-        <div class="service-container">
-          <!--  <a th:href="@{/products(type='sale')}" class="service-card sale">
-                <div class="service-icon" aria-hidden="true">💎</div>
-                <h3>Jewellery for Sale</h3>
-                <p>Discover beautiful jewellery to make yours forever.</p>
-                <span class="btn">Shop Now</span>
-            </a>-->
+        <div class="slider-wrapper" id="trendingSlider">
+            <a th:each="item, iterStat : ${trendingItems}"
+               th:href="@{/products/{id}(id=${item.id})}"
+               class="slide"
+               th:classappend="${iterStat.index == 0} ? ' active' : ''">
 
-            <a th:href="@{/products(type='rent')}" class="service-card rental">
-                <div class="service-icon" aria-hidden="true">👑</div>
-                <h3>Jewellery for Rent</h3>
-                <p>Stunning jewellery for weddings, receptions and special occasions.</p>
-                <span class="btn">Rent Now</span>
+                <img th:src="@{'/collection/image/' + ${item.id}}"
+                     alt="Trending Jewellery">
+
+                <div class="slide-caption" th:if="${item.price != null}">
+                    <span>₹ <th:block th:text="${item.price}">1500</th:block> — Tap to View Details</span>
+                </div>
             </a>
         </div>
     </section>
@@ -69,6 +160,20 @@
     <p>Imitation Jewellery Sales &amp; Rentals</p>
     <p class="copyright">© 2026 FemiPick Fashions. All rights reserved.</p>
 </footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const slides = document.querySelectorAll("#trendingSlider .slide");
+        if (slides.length > 1) {
+            let currentIndex = 0;
+            setInterval(function () {
+                slides[currentIndex].classList.remove("active");
+                currentIndex = (currentIndex + 1) % slides.length;
+                slides[currentIndex].classList.add("active");
+            }, 3000);
+        }
+    });
+</script>
 
 </body>
 </html>
