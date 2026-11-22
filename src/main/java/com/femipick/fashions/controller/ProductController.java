@@ -4,6 +4,9 @@ import com.femipick.fashions.entity.Category;
 import com.femipick.fashions.entity.CollectionItem;
 import com.femipick.fashions.repository.CategoryRepository;
 import com.femipick.fashions.repository.CollectionRepository;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -54,9 +57,12 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public String productDetails(@PathVariable Long id, Model model) {
-        collectionRepository.findById(id)
-                .ifPresent(item -> model.addAttribute("product", item));
+    public String productDetails(@PathVariable Long id, HttpSession session, Model model) {
+        CollectionItem item = collectionRepository.findById(id).orElse(null);
+        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+
+        model.addAttribute("product", item);
+        model.addAttribute("isAdmin", Boolean.TRUE.equals(isAdmin));
         return "product-details";
     }
 

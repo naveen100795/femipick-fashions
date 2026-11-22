@@ -83,7 +83,19 @@
         }
     </style>
 </head>
-
+<div id="deletePopup" th:if="${isAdmin}"
+     style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 999;">
+    <div style="background: #fff; padding: 24px; border-radius: 10px; text-align: center; max-width: 320px; width: 90%;">
+        <p style="font-size: 1.1rem; font-weight: bold; margin-bottom: 18px;">Want to delete?</p>
+        <div style="display: flex; justify-content: center; gap: 14px;">
+            <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" style="margin: 0;">
+                <button type="submit" style="padding: 8px 22px; background: #c62828; color: #fff; border: none; border-radius: 6px; cursor: pointer;">Yes</button>
+            </form>
+            <button type="button" onclick="document.getElementById('deletePopup').style.display='none'"
+                    style="padding: 8px 22px; background: #ddd; color: #000; border: none; border-radius: 6px; cursor: pointer;">No</button>
+        </div>
+    </div>
+</div>
 <body>
 
 <header>
@@ -116,6 +128,16 @@
             ← Back to <span th:text="${product.category.name}">Category</span>
         </a>
     </div>
+	<div th:if="${isAdmin}" style="margin-top: 20px; display: flex; gap: 12px;">
+	    <a th:href="@{/products/edit/{id}(id=${product.id})}"
+	       style="padding: 10px 20px; background: #d4af37; color: #000; text-decoration: none; border-radius: 6px; font-weight: bold;">
+	        Edit
+	    </a>
+	    <button type="button" onclick="document.getElementById('deletePopup').style.display='flex'"
+	            style="padding: 10px 20px; background: #c62828; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+	        Delete
+	    </button>
+	</div>
 </div>
 
 </body>
