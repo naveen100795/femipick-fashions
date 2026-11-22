@@ -7,27 +7,88 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
     <style>
-        /* Full-Page Background Image */
-        body {
-            margin: 0;
-            background: linear-gradient(rgba(255, 250, 245, 0.80), rgba(255, 250, 245, 0.80)),
-                        url('/images/bg.jpg') no-repeat center center fixed;
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden; /* Prevents horizontal side-scrolling on mobile */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgba(255, 250, 245, 0.35), rgba(255, 250, 245, 0.35)),
+                        url('/images/bg.jpg') no-repeat center center;
             background-size: cover;
             min-height: 100vh;
+            color: #2c2c2c;
         }
 
-        /* Trending Collections Auto-Slider (3-Second Interval) */
+        main, .categories, .trending-section {
+            background: transparent !important;
+        }
+
+        /* Responsive Black & Gold Header */
+        header.navbar {
+            background-color: #000000 !important;
+            height: auto !important;
+            min-height: 70px;
+            padding: 14px 5% !important;
+            display: flex !important;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        header.navbar .logo {
+            font-size: clamp(1.25rem, 4vw, 1.65rem) !important;
+            font-weight: 700;
+            color: #f6d58a !important;
+        }
+
+        header.navbar .nav-links {
+            display: flex !important;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin: 0 !important;
+        }
+
+        header.navbar .nav-links a {
+            color: #f6d58a !important;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.98rem;
+            margin: 0 !important; /* Removes the broken 50px top margin */
+            padding: 4px 6px;
+        }
+
+        header.navbar .nav-links a:hover {
+            color: #ffffff !important;
+        }
+
+        /* Section Headings */
+        .trending-section h2,
+        .categories h2 {
+            font-size: clamp(1.35rem, 4vw, 1.9rem) !important;
+            color: #4a1c40;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Trending Collections 3-Second Slider */
         .trending-section {
             max-width: 1000px;
-            margin: 35px auto;
-            padding: 0 16px;
+            margin: 28px auto;
+            padding: 0 14px;
             text-align: center;
-        }
-
-        .trending-section h2 {
-            color: #4a1c40;
-            margin-bottom: 18px;
-            font-size: 1.8rem;
         }
 
         .slider-wrapper {
@@ -52,7 +113,6 @@
             transition: opacity 0.8s ease-in-out;
             pointer-events: none;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
@@ -72,33 +132,105 @@
             position: absolute;
             bottom: 0;
             width: 100%;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
+            background: linear-gradient(transparent, rgba(183, 28, 28, 0.92));
             color: #ffffff;
-            padding: 16px;
+            padding: 14px 10px;
             text-align: center;
         }
 
         .slide-caption span {
-            font-size: 1.05rem;
+            font-size: clamp(0.9rem, 3vw, 1.05rem);
             font-weight: 600;
         }
 
-        /* Mobile & Tablet Adjustments */
-        @media (max-width: 768px) {
-            body {
-                background-attachment: scroll;
-            }
-            .slider-wrapper {
-                height: 300px;
-            }
-            .trending-section h2 {
-                font-size: 1.4rem;
-            }
+        /* Collections Category Grid */
+        .categories {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 14px 40px !important;
+            text-align: center;
         }
 
-        @media (max-width: 480px) {
+        .category-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)) !important;
+            gap: 16px !important;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.96) !important;
+            padding: 24px 16px !important;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #5b2638;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .category-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+
+        .explore-link {
+            color: #8b5a2b;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Black & Gold Footer */
+        footer#contact {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+            text-align: center;
+            padding: 28px 16px !important;
+            margin-top: 30px;
+        }
+
+        footer#contact h2 {
+            color: #f6d58a !important;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        footer#contact p {
+            color: #e0e0e0 !important;
+            font-size: 0.95rem;
+            margin: 4px 0;
+        }
+
+        /* Mobile Breakpoint (Phones under 600px) */
+        @media (max-width: 600px) {
+            header.navbar {
+                flex-direction: column !important;
+                justify-content: center !important;
+                text-align: center;
+                padding: 12px 10px !important;
+            }
+
+            header.navbar .nav-links {
+                gap: 10px 14px;
+            }
+
+            header.navbar .nav-links a {
+                font-size: 0.9rem;
+            }
+
             .slider-wrapper {
                 height: 240px;
+                border-radius: 10px;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr !important; /* Full-width easy-to-tap cards on phone */
+                gap: 12px !important;
+            }
+
+            .category-card {
+                padding: 18px 14px !important;
             }
         }
     </style>
@@ -117,7 +249,6 @@
 </header>
 
 <main>
-    <!-- Hero block removed; Trending Collections 3-Second Slider starts directly -->
     <section class="trending-section" th:if="${!#lists.isEmpty(trendingItems)}">
         <h2>Trending Collections</h2>
 
