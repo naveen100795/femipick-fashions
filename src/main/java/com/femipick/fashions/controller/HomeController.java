@@ -100,6 +100,12 @@ public class HomeController {
         redirectAttributes.addFlashAttribute("message", "Collection uploaded successfully!");
         return "redirect:/upload";
     }
+    
+    @GetMapping("/ping")
+    @ResponseBody
+    public String ping() {
+        return "OK";
+    }
 
     // 3. Endpoint to display saved images on index.html
   
